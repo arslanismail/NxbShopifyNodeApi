@@ -1,0 +1,9 @@
+{
+	"oauth": {
+		"api_key": "d257cc32f9c4639a9fce7fc009f2f85b",
+		"client_secret": "3ab5527eec87865c7ad7582c5ec6e49f",
+		"redirect_uri":"https://96c0b5ee.ngrok.io/access_token",
+		"scope": "read_themes,write_themes,write_customers,read_script_tags,write_script_tags,read_products,write_products"
+	},
+	"app_url": "https://96c0b5ee.ngrok.io"
+}
