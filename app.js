@@ -8,20 +8,10 @@ var crypto = require('crypto');
 var bodyParser = require('body-parser');
 var request = require('request');
 var config = require('./settings')
-const nonce = require('nonce')();
 var session = require('express-session')
-var shopifyAPI = require('shopify-node-api')
+
 
 var app = express();
-
-var Shopify = new shopifyAPI({
-    shop: 'nxbcommercepk.myshopify.com', // MYSHOP.myshopify.com
-    shopify_api_key: 'd257cc32f9c4639a9fce7fc009f2f85b', // Your API key
-    shopify_shared_secret: '3ab5527eec87865c7ad7582c5ec6e49f', // Your Shared Secret
-    shopify_scope: 'read_themes,write_themes,write_customers,read_script_tags,write_script_tags,read_products,write_products',
-    redirect_uri: 'https://96c0b5ee.ngrok.io/access_token',
-    nonce: nonce() // you must provide a randomly selected value unique for each authorization request
-  });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -156,7 +146,7 @@ app.get('/scripts', function(req, res) {
         json: {
             "script_tag": {
               "event": "onload",
-              "src": "https://96c0b5ee.ngrok.io/custom20.js"
+              "src": "https://c30ad44d.ngrok.io/custom20.js"
             }
           },
         headers: {
@@ -271,10 +261,12 @@ app.use(function(err, req, res, next) {
     });
 });
 
+
 var server_ip_address = '127.0.0.1';
 app.set('port', process.env.PORT || 3002);
 var server = app.listen(app.get('port'), server_ip_address, function() {
   console.log('Express server listening on port ' + server.address().port);
 });
+
 
 module.exports = app;
