@@ -9,7 +9,7 @@ var VatApp=(function(){
         //    var Select input button html
         
         vatSelectInput:function(){
-             var selectInput="<select id='vatid' onchange='VatApp.applyPricing()'>"+
+             var selectInput="<select id='vatid' onchange='VatApp.applyPricing()' style='margin-left: 30px;'>"+
              "<option value='exc'>Excl. VAT</option>"+
              "<option value='inc'>Inc. VAT</option>"+
              "<option value='both'>Both</option>"+
