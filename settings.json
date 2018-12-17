@@ -1,9 +1,9 @@
 {
 	"oauth": {
-		"api_key": "a6019db96b2c37eea5a4a9426952b66a",
-		"client_secret": "43ce2315f95dc1aa8d8f1af0e202037a",
-		"redirect_uri":"https://08255b62.ngrok.io/access_token",
+		"api_key": "d4d98e405d63247dcec028cd4dcd9cb6",
+		"client_secret": "f66259562059bedddee7851c2f49cee5",
+		"redirect_uri":"https://73bbebd2.ngrok.io/access_token",
 		"scope": "read_themes,write_themes,write_customers,read_script_tags,write_script_tags,read_products,write_products"
 	},
-	"app_url": "https://08255b62.ngrok.io"
+	"app_url": "https://73bbebd2.ngrok.io"
 }

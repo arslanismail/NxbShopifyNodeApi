@@ -33,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/shopify_auth', function(req, res) {
     if (req.query.shop) {
         req.session.shop = req.query.shop;
+
+        req.session.vat;
         res.render('embedded_app_redirect', {
             shop: req.query.shop,
             api_key: config.oauth.api_key,
@@ -90,6 +92,9 @@ app.get('/modal_content', function(req, res) {
 // This check should probably be done on every page, and should be handled by a middleware
 app.get('/', function(req, res) {
     if (req.session.access_token) {
+          
+
+
         res.render('index', {
             title: 'Home',
             api_key: config.oauth.api_key,
@@ -100,44 +105,88 @@ app.get('/', function(req, res) {
     }
 })
 
-app.get('/add_product', function(req, res)
- {
-    res.render('add_product', {
-        title: 'Add A Product', 
-        api_key: config.oauth.api_key,
-        shop: req.session.shop,
-    });
-})
+// app.get('/add_product', function(req, res)
+//  {
+//     res.render('add_product', {
+//         title: 'Add A Product', 
+//         api_key: config.oauth.api_key,
+//         shop: req.session.shop,
+//     });
+// })
 
-app.get('/products', function(req, res) {
+// app.get('/products', function(req, res) {
     
-    var next, previous, page;
-    page = req.query.page ? ~~req.query.page:1;
+//     var next, previous, page;
+//     page = req.query.page ? ~~req.query.page:1;
 
-    next = page + 1;
-    previous = page == 1 ? page : page - 1;
+//     next = page + 1;
+//     previous = page == 1 ? page : page - 1;
 
-    request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=5&page=' + page,
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token
-        }
-    }, function(error, response, body){
-        if(error)
-            return next(error);
-        body = JSON.parse(body);
-        res.render('products', {
-            title: 'Products', 
-            api_key: config.oauth.api_key,
-            shop: req.session.shop,
-            next: next,
-            previous: previous,
-            products: body.products
-        });
-    })  
-})
+//     request.get({
+//         url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json?limit=5&page=' + page,
+//         headers: {
+//             'X-Shopify-Access-Token': req.session.access_token
+//         }
+//     }, function(error, response, body){
+//         if(error)
+//             return next(error);
+//         body = JSON.parse(body);
+//         res.render('products', {
+//             title: 'Products', 
+//             api_key: config.oauth.api_key,
+//             shop: req.session.shop,
+//             next: next,
+//             previous: previous,
+//             products: body.products
+//         });
+//     })  
+// })
 
 
+
+
+// app.get('/metafield', function(req, res) {
+
+
+//     var putValue=55;
+    
+//     request.post({
+//         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+//         json:{
+//             "metafield": {
+//               "namespace": "commerce_vat",
+//               "key": "vat_tax",
+//               "value": putValue,
+//               "value_type": "integer"
+//             }
+//           }
+//           ,
+//         headers: {
+//             'X-Shopify-Access-Token': req.session.access_token
+//         }
+//     }, function(error, response, body){
+//         if(error)
+//             return next(error);
+        
+//         res.send(body);
+//     })  
+// })
+
+
+// app.get('/getmetafileds', function(req, res) {
+    
+//     request.get({
+//         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+//         headers: {
+//             'X-Shopify-Access-Token': req.session.access_token
+//         }
+//     }, function(error, response, body){
+//         if(error)
+//             return next(error);
+        
+//         res.send(body);
+//     })  
+// })
 
 app.get('/scripts', function(req, res) {
     
@@ -145,8 +194,8 @@ app.get('/scripts', function(req, res) {
         url: 'https://' + req.session.shop + '.myshopify.com/admin/script_tags.json',
         json: {
             "script_tag": {
-              "event": "onload",
-              "src": "https://08255b62.ngrok.io/custom20.js"
+              "event":"onload",
+              "src":"https://73bbebd2.ngrok.io/custom20.js"
             }
           },
         headers: {
@@ -160,58 +209,122 @@ app.get('/scripts', function(req, res) {
     })  
 })
 
-app.get('/showscripts', function(req, res) {
+app.get('/integrate',function(req,res){
+  var getcountry;
+  var CountryArray=[];
+  var getTax;
+   request.get({
+       url: 'https://' + req.session.shop + '.myshopify.com/admin/shop.json',
+       headers: {
+       'X-Shopify-Access-Token': req.session.access_token
+            }
+},function(error,response,body)
+{
+    if(error)
+    return next(error);
+    body = JSON.parse(body);
+    getcountry=body.shop.country_name;
     
-    request.get({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/script_tags.json',
+
+});
+
+ request.get({
+    url: 'https://' + req.session.shop + '.myshopify.com/admin/countries.json',
+    headers: {
+    'X-Shopify-Access-Token': req.session.access_token
+         }
+},function(error,response,body)
+{
+ if(error)
+ return next(error);
+  body = JSON.parse(body);
+  if(body.countries[0].tax){
+    //   res.send(body.countries[0].tax);
+
+      getTax= body.countries[0].tax;
+      request.post({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        json:{
+            "metafield": {
+              "namespace": "custom_tax",
+              "key": "vaxing",
+              "value": getTax,
+              "value_type": "string"
+            }
+          }
+          ,
         headers: {
             'X-Shopify-Access-Token': req.session.access_token
         }
     }, function(error, response, body){
         if(error)
             return next(error);
-            body = JSON.parse(body);
+        
         res.send(body);
+        console.log(getTax);
     })  
-})
+
+  }else{
+      res.send("can't get tax rate");
+  }
 
 
-app.post('/products', function(req, res) {
-    data = {
-     product: {
-            title: req.body.title,
-            body_html: req.body.body_html,
-            images: [
-                {
-                    src: req.body.image_src
-                }
-            ],
-            vendor: "Vendor",
-            product_type: "Type"
-        }
-    }
-    req_body = JSON.stringify(data);
-    console.log(data);
-    console.log(req_body);
-    request({
-        method: "POST",
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json',
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token,
-            'Content-type': 'application/json; charset=utf-8'
-        },
-        body: req_body
-    }, function(error, response, body){
-        if(error)
-            return next(error);
-        console.log(body);
-        body = JSON.parse(body);
-        if (body.errors) {
-            return res.json(500);
-        } 
-        res.json(201);
-    })  
-})
+});
+});
+
+
+
+// app.get('/showscripts', function(req, res) { 
+//     request.get({
+//         url: 'https://' + req.session.shop + '.myshopify.com/admin/script_tags.json',
+//         headers: {
+//             'X-Shopify-Access-Token': req.session.access_token
+//         }
+//     }, function(error, response, body){
+//         if(error)
+//             return next(error);
+//             body = JSON.parse(body);
+//         res.send(body);
+//     })  
+// })
+
+
+// app.post('/products', function(req, res) {
+//     data = {
+//      product: {
+//             title: req.body.title,
+//             body_html: req.body.body_html,
+//             images: [
+//                 {
+//                     src: req.body.image_src
+//                 }
+//             ],
+//             vendor: "Vendor",
+//             product_type: "Type"
+//         }
+//     }
+//     req_body = JSON.stringify(data);
+//     console.log(data);
+//     console.log(req_body);
+//     request({
+//         method: "POST",
+//         url: 'https://' + req.session.shop + '.myshopify.com/admin/products.json',
+//         headers: {
+//             'X-Shopify-Access-Token': req.session.access_token,
+//             'Content-type': 'application/json; charset=utf-8'
+//         },
+//         body: req_body
+//     }, function(error, response, body){
+//         if(error)
+//             return next(error);
+//         console.log(body);
+//         body = JSON.parse(body);
+//         if (body.errors) {
+//             return res.json(500);
+//         } 
+//         res.json(201);
+//     })  
+// })
 
 function verifyRequest(req, res, next) {
     var map = JSON.parse(JSON.stringify(req.query));

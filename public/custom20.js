@@ -72,9 +72,6 @@ var VatApp=(function(){
          
          appendInProductPriceSnippet:function()
          {
-
-
-
             var regularPriceClassAttribute='price-item price-item--regular excvat';
             var regularsalePriceStyleAttribute='display:block';
             var salePriceClassAttribute='price-item price-item--sale excvat';
@@ -96,7 +93,7 @@ var VatApp=(function(){
                     //  Call productSnippetDom function here
 
                     this.productSnippetDom(regularPriceClassAttribute,regularsalePriceStyleAttribute,salePriceClassAttribute,regularsalePriceStyleAttribute,addSpanToSalePrice,addSpanToRegularPrice);
-            
+
          },
 
         //               Product Prices Dom Manipulation Function
@@ -119,7 +116,6 @@ var VatApp=(function(){
          render:function(){
             this.appendVatBtnInHeader();
             this.appendInProductPriceSnippet();
-            
          }
 
       }
@@ -140,6 +136,7 @@ var VatApp=(function(){
 
     function init(){
         startApp();
+        // console.log(Shopify);  
     }
 
  
