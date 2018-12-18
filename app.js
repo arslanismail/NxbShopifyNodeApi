@@ -106,26 +106,26 @@ app.get('/', function(req, res) {
 })
 
 
-app.get('/scripts', function(req, res) {
+// app.get('/scripts', function(req, res) {
     
-    request.post({
-        url: 'https://' + req.session.shop + '.myshopify.com/admin/script_tags.json',
-        json: {
-            "script_tag": {
-              "event":"onload",
-              "src":"https://73bbebd2.ngrok.io/custom20.js"
-            }
-          },
-        headers: {
-            'X-Shopify-Access-Token': req.session.access_token
-        }
-    }, function(error, response, body){
-        if(error)
-            return next(error);
+//     request.post({
+//         url: 'https://' + req.session.shop + '.myshopify.com/admin/script_tags.json',
+//         json: {
+//             "script_tag": {
+//               "event":"onload",
+//               "src":"https://73bbebd2.ngrok.io/custom20.js"
+//             }
+//           },
+//         headers: {
+//             'X-Shopify-Access-Token': req.session.access_token
+//         }
+//     }, function(error, response, body){
+//         if(error)
+//             return next(error);
         
-        res.send(body);
-    })  
-})
+//         res.send(body);
+//     })  
+// })
 
 app.get('/integrate',function(req,res){
   var getcountry;
@@ -164,8 +164,8 @@ app.get('/integrate',function(req,res){
         url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
         json:{
             "metafield": {
-              "namespace": "custom_tax",
-              "key": "vaxing",
+              "namespace": "commerce_plugin",
+              "key": "vat",
               "value": getTax,
               "value_type": "string"
             }
@@ -178,14 +178,29 @@ app.get('/integrate',function(req,res){
         if(error)
             return next(error);
         
-        res.send(body);
-        console.log(getTax);
+        
+        request.post({
+            url: 'https://' + req.session.shop + '.myshopify.com/admin/script_tags.json',
+            json: {
+                "script_tag": {
+                  "event":"onload",
+                  "src":"https://27018068.ngrok.io/custom20.js"
+                }
+              },
+            headers: {
+                'X-Shopify-Access-Token': req.session.access_token
+            }
+        }, function(error, response, body){
+            if(error)
+                return next(error);
+            
+            res.render('response');
+        })  
     })  
 
   }else{
       res.send("can't get tax rate");
   }
-
 
 });
 });

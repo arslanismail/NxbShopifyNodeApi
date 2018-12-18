@@ -77,37 +77,49 @@ var VatApp=(function(){
             var salePriceClassAttribute='price-item price-item--sale excvat';
             
                 //   Get Price and Multiply it with Tax Rate
+            if(document.querySelector('#commerce-vat-tax-rate').innerHTML.trim())
+            {
+            var taxprice=document.querySelector('#commerce-vat-tax-rate').innerHTML.trim();
+            }
             
-            var regularPrice=document.querySelector(".price__regular").children[1].children[0].innerHTML.trim();
-            regularPrice=regularPrice.replace(/Rs./gi,"") * 2;
-            var salePrice=document.querySelector(".price__sale").children[1].children[0].innerHTML.trim();
-            salePrice=salePrice.replace(/Rs./gi,"") * 2;
-
-            
-                    //  Add This Html to Template
-
-            var addSpanToRegularPrice="<span style='display:none;' class='price-item price-item--regular incvat' data-regular-price=''>Inc-Vat Rs."+regularPrice+"</span>";
-            var addSpanToSalePrice="<span style='display: none;' class='price-item price-item--sale incvat' data-sale-price=''>Inc-Vat  Rs."+salePrice+"</span>";
-            
-         
-                    //  Call productSnippetDom function here
-
-                    this.productSnippetDom(regularPriceClassAttribute,regularsalePriceStyleAttribute,salePriceClassAttribute,regularsalePriceStyleAttribute,addSpanToSalePrice,addSpanToRegularPrice);
-
+            var conditionalCheck=document.getElementsByClassName("price__regular");
+            if(conditionalCheck.length>0){
+            for (var i=0; i<conditionalCheck.length; i++){
+                var regularPrice=document.getElementsByClassName("price__regular")[i].children[1].children[0].innerHTML.trim();
+                regularPrice=parseInt(regularPrice.replace(/Rs./gi,"")) + (parseInt(regularPrice.replace(/Rs./gi,""))*taxprice);
+                regularPrice=parseFloat(regularPrice).toFixed(2);    
+                var salePrice=document.getElementsByClassName("price__sale")[i].children[1].children[0].innerHTML.trim();
+                salePrice=parseInt(salePrice.replace(/Rs./gi,"")) + (parseInt(salePrice.replace(/Rs./gi,""))*taxprice);
+                var addSpanToRegularPrice="<span style='display:none;' class='price-item price-item--regular incvat' data-regular-price=''>Inc-Vat Rs."+regularPrice+"</span>";
+                var addSpanToSalePrice="<span style='display: none;' class='price-item price-item--sale incvat' data-sale-price=''>Inc-Vat  Rs."+salePrice+"</span>";
+                this.productSnippetDom(regularPriceClassAttribute,regularsalePriceStyleAttribute,salePriceClassAttribute,regularsalePriceStyleAttribute,addSpanToSalePrice,addSpanToRegularPrice,i);
+            }
+                
+            }
          },
 
         //               Product Prices Dom Manipulation Function
         
         
-         productSnippetDom:function(regularPriceClassAttribute,regularsalePriceStyleAttribute,salePriceClassAttribute,regularsalePriceStyleAttribute,addSpanToSalePrice,addSpanToRegularPrice)
+         productSnippetDom:function(regularPriceClassAttribute,regularsalePriceStyleAttribute,salePriceClassAttribute,regularsalePriceStyleAttribute,addSpanToSalePrice,addSpanToRegularPrice,index)
          {
             
-            document.querySelector(".price__regular").children[1].children[0].setAttribute('class',regularPriceClassAttribute);
-            document.querySelector(".price__regular").children[1].children[0].setAttribute('style',regularsalePriceStyleAttribute);
-            document.querySelector(".price__sale").children[1].children[0].setAttribute('class',salePriceClassAttribute);
-            document.querySelector(".price__sale").children[1].children[0].setAttribute('style',regularsalePriceStyleAttribute);
-            document.querySelector(".price__sale").children[1].insertAdjacentHTML('beforebegin',addSpanToSalePrice);
-            document.querySelector(".price__regular").children[1].insertAdjacentHTML('beforeend',addSpanToRegularPrice);
+            
+            document.getElementsByClassName("price__regular")[index].children[1].children[0].setAttribute('class',regularPriceClassAttribute);
+            document.getElementsByClassName("price__regular")[index].children[1].children[0].setAttribute('style',regularsalePriceStyleAttribute);
+            document.getElementsByClassName("price__sale")[index].children[1].children[0].setAttribute('class',salePriceClassAttribute);
+            document.getElementsByClassName("price__sale")[index].children[1].children[0].setAttribute('style',regularsalePriceStyleAttribute);
+            document.getElementsByClassName("price__sale")[index].children[1].insertAdjacentHTML('beforebegin',addSpanToSalePrice);
+            document.getElementsByClassName("price__regular")[index].children[1].insertAdjacentHTML('beforeend',addSpanToRegularPrice);
+            
+           
+
+            // document.querySelector(".price__regular").children[1].children[0].setAttribute('class',regularPriceClassAttribute);
+            // document.querySelector(".price__regular").children[1].children[0].setAttribute('style',regularsalePriceStyleAttribute);
+            // document.querySelector(".price__sale").children[1].children[0].setAttribute('class',salePriceClassAttribute);
+            // document.querySelector(".price__sale").children[1].children[0].setAttribute('style',regularsalePriceStyleAttribute);
+            // document.querySelector(".price__sale").children[1].insertAdjacentHTML('beforebegin',addSpanToSalePrice);
+            // document.getElementsByClassName("price__regular")[0].children[1].insertAdjacentHTML('beforeend',addSpanToRegularPrice);
             
          },
 
