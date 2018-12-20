@@ -184,7 +184,7 @@ app.get('/integrate',function(req,res){
             json: {
                 "script_tag": {
                   "event":"onload",
-                  "src":"https://baa14714.ngrok.io/custom20.js"
+                  "src":"https://20aacf7f.ngrok.io/vat.js"
                 }
               },
             headers: {
@@ -204,8 +204,6 @@ app.get('/integrate',function(req,res){
 
 });
 });
-
-
 
 function verifyRequest(req, res, next) {
     var map = JSON.parse(JSON.stringify(req.query));
@@ -255,12 +253,10 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
 var server_ip_address = '127.0.0.1';
 app.set('port', process.env.PORT || 3002);
 var server = app.listen(app.get('port'), server_ip_address, function() {
   console.log('Express server listening on port ' + server.address().port);
 });
-
 
 module.exports = app;

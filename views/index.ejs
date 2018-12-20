@@ -16,82 +16,62 @@
 <body>
 	<script type="text/javascript">
 	ShopifyApp.ready(function(){
-		ShopifyApp.Bar.initialize({
-			title: '<%= title %>',
-			icon: '/images/logo.png',
-			buttons: {
-				primary: {
-					label: "Save",
-					message: 'bar_save'
-				},
-				secondary: [
-					// Dropdown example
-					{ 
-						label: "More",
-						type: "dropdown",
-						links: [
-							// Link Button that opens in the app
-							{ label: "Update", href: "/update", target: "app" },
-							// Button with a callback function
-							{ label: "Delete", callback: function(){ alert("destroy") } }
-						]
-					},
-					{ 
-						// Link Button that opens in a new window
-						label: "Preview", href: 'http://<%= shop %>.myshopify.com', 
-						target: "new" 
-					},
-					{ 
-						label: "Open Modal", 
-						callback: function() {
-							ShopifyApp.Modal.open({
-							  src: 'https://96c0b5ee.ngrok.io/modal_content',
-							  title: 'A new modal',
-							  width: 'small',
-							  height: 300,
-							  buttons: {
-							    primary: { label: "OK" },
-							    secondary: [
-							      { label: "Cancel", callback: function (label) { ShopifyApp.Modal.close(); } }
-							    ]
-							  }
-							});
-						}
-					}
-				]
-			}
-		});
+		//  Reference Code for Embeded SDK
+		// ShopifyApp.Bar.initialize({
+		// 	title: '<%= title %>',
+		// 	icon: '/images/logo.png',
+		// 	buttons: {
+		// 		primary: {
+		// 			label: "Save",
+		// 			message: 'bar_save'
+		// 		},
+		// 		secondary: [
+		// 			// Dropdown example
+		// 			{ 
+		// 				label: "More",
+		// 				type: "dropdown",
+		// 				links: [
+		// 					// Link Button that opens in the app
+		// 					{ label: "Update", href: "/update", target: "app" },
+		// 					// Button with a callback function
+		// 					{ label: "Delete", callback: function(){ alert("destroy") } }
+		// 				]
+		// 			},
+		// 			{ 
+		// 				// Link Button that opens in a new window
+		// 				label: "Preview", href: 'http://<%= shop %>.myshopify.com', 
+		// 				target: "new" 
+		// 			},
+		// 			{ 
+		// 				label: "Open Modal", 
+		// 				callback: function() {
+		// 					ShopifyApp.Modal.open({
+		// 					  src: 'https://96c0b5ee.ngrok.io/modal_content',
+		// 					  title: 'A new modal',
+		// 					  width: 'small',
+		// 					  height: 300,
+		// 					  buttons: {
+		// 					    primary: { label: "OK" },
+		// 					    secondary: [
+		// 					      { label: "Cancel", callback: function (label) { ShopifyApp.Modal.close(); } }
+		// 					    ]
+		// 					  }
+		// 					});
+		// 				}
+		// 			}
+		// 		]
+		// 	}
+		// });
 		ShopifyApp.Bar.loadingOff();
 
 	});
 	</script>
 	  <div class="row">
 	    <div class="large-6 columns">
-	    	<h1><%= title %></h1>
+				<h1><%= title %></h1>
+				
 	      <div class="row collapse">
-	        <!-- <div class="small-12 columns">
-						<a href="/scripts">See All Products</a>
-						
-	        </div>
-	        <div class="small-12 columns">
-	          <a href="/add_product">Add A Product</a>
-					</div>
-					
-					<div class="small-12 columns">
-	          <a href="/showscripts">Show All Scripts</a>
-					</div>
-					
-					<div class="small-12 columns">
-	          <a href="/getTax">Get Tax</a>
-	        </div>
-					<div class="small-12 columns">
-	          <a href="/metafield">Add Metafield</a>
-	        </div>
-					<div class="small-12 columns">
-	          <a href="/getmetafileds">Get Metafield</a>
-					</div> -->
-					
-					<div class="small-12 columns">
+	       	<div class="small-12 columns">
 	          <a href="/integrate">Click TO Start Integration</a>
 	        </div> 
 	      </div>

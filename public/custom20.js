@@ -5,7 +5,6 @@
 
 var VatApp=(function(){
 
-
   var ThemeJsOverRiding={
       _themeProductObserver:function(){
         theme.Product.prototype._updatePrice = function() {
