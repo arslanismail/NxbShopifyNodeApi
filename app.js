@@ -184,7 +184,7 @@ app.get('/integrate',function(req,res){
             json: {
                 "script_tag": {
                   "event":"onload",
-                  "src":"https://20aacf7f.ngrok.io/vat.js"
+                  "src":"https://1c8bfc9c.ngrok.io/vat-updated.js"
                 }
               },
             headers: {
