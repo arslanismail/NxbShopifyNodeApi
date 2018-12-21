@@ -6,6 +6,7 @@ var vatApp=(function(){
         {
             theme.Product.prototype._updatePrice = function(){
             var taxprice=$('#commerce-vat-tax-rate').text().trim();
+            var storeCurrency=$('#commerce-vat-store-currency').html();
 
         //  Wait for Nano mili Second our DOM Manipulation Runs After the theme Manipulation
           setTimeout(function()
@@ -15,7 +16,7 @@ var vatApp=(function(){
             regPriceCondtionExvat=parseInt(regPriceCondtionExvat.replace(/Exc-Vat Rs./gi,"")) + (parseInt(regPriceCondtionExvat.replace(/Exc-Vat Rs./gi,""))*taxprice);
             if(regPriceCondtionExvat){
                 regPriceCondtionExvat=parseFloat(regPriceCondtionExvat).toFixed(2);
-                $('.price__regular .nxb-invat').empty().append('Inc-Vat Rs.'+regPriceCondtionExvat);
+                $('.price__regular .nxb-invat').empty().append('Inc-Vat '+storeCurrency+''+regPriceCondtionExvat);
             }
             else
             {
@@ -26,7 +27,7 @@ var vatApp=(function(){
                 }else{
                 var regPriceCondtionExvat=$.trim($('.price__regular .nxb-exvat.price-item.price-item--regular').html());
                 regPriceCondtionExvat=parseInt(regPriceCondtionExvat.replace(/Rs./gi,"")) + (parseInt(regPriceCondtionExvat.replace(/Rs./gi,""))*taxprice);
-                $('.price__regular .nxb-invat').empty().append('Inc-Vat Rs.'+regPriceCondtionExvat);
+                $('.price__regular .nxb-invat').empty().append('Inc-Vat '+storeCurrency+''+regPriceCondtionExvat);
                 }
             }
             
@@ -36,7 +37,7 @@ var vatApp=(function(){
             salePriceCondtionExvat=parseInt(salePriceCondtionExvat.replace(/Exc-Vat Rs./gi,"")) + (parseInt(salePriceCondtionExvat.replace(/Exc-Vat Rs./gi,""))*taxprice);
             if(salePriceCondtionExvat){
                 salePriceCondtionExvat=parseFloat(salePriceCondtionExvat).toFixed(2);
-                $(".price__sale .nxb-invat").empty().append('Inc-Vat'+salePriceCondtionExvat);
+                $(".price__sale .nxb-invat").empty().append('Inc-Vat '+salePriceCondtionExvat);
             }else
             {
                 var salePriceCondtionExvat=$.trim($(".price__sale .nxb-exvat").html());
@@ -46,14 +47,14 @@ var vatApp=(function(){
                 if(!isNaN(salePriceCondtionExvat))
                 {
                     
-                $(".price__sale .nxb-invat").empty().append('Inc-Vat'+salePriceCondtionExvat);
+                $(".price__sale .nxb-invat").empty().append('Inc-Vat '+salePriceCondtionExvat);
                 }
                 else
                 {
                     var salePriceCondtionExvat=$.trim($(".price__sale .nxb-exvat").html());
                     salePriceCondtionExvat=parseInt(salePriceCondtionExvat.replace(/Rs./gi,"")) + (parseInt(salePriceCondtionExvat.replace(/Rs./gi,""))*taxprice);
                     salePriceCondtionExvat=parseFloat(salePriceCondtionExvat).toFixed(2);
-                    $(".price__sale .nxb-invat").empty().append('Inc-Vat'+salePriceCondtionExvat);
+                    $(".price__sale .nxb-invat").empty().append('Inc-Vat '+salePriceCondtionExvat);
                 }    
             }
             }
@@ -95,7 +96,7 @@ var vatApp=(function(){
                    
                    hideprice[index].style.display = "none";
                    try{
-                   ele[index].style.display = "inline";
+                   ele[index].style.display = "block";
                    }catch(exception){
                    }
                });
@@ -103,7 +104,7 @@ var vatApp=(function(){
            else if(selectedVal=="exc")
            {
             $.each(hideprice,function(index){
-                hideprice[index].style.display = "inline";
+                hideprice[index].style.display = "block";
                 try{
                    ele[index].style.display = "none";
                    }catch(exception){
@@ -122,7 +123,6 @@ var vatApp=(function(){
                 toAddExvat=toAddExvat.replace(/Rs./gi,"");
                 $('.nxb-exvat')[index].innerHTML=''+toAddExvat;
             });
-            
            }
         },
         render:function(){

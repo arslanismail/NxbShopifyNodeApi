@@ -142,6 +142,30 @@ app.get('/integrate',function(req,res){
     return next(error);
     body = JSON.parse(body);
     getcountry=body.shop.country_name;
+    getCurrency=body.shop.money_format;
+    getCurrency=getCurrency.replace('{{amount}}','');
+
+
+    request.post({
+        url: 'https://' + req.session.shop + '.myshopify.com/admin/metafields.json',
+        json:{
+            "metafield": {
+              "namespace": "commerce_plugin",
+              "key": "vat-currency",
+              "value": getCurrency,
+              "value_type": "string"
+            }
+          }
+          ,
+        headers: {
+            'X-Shopify-Access-Token': req.session.access_token
+        }
+    }, function(error, response, body){
+        if(error)
+            return next(error);
+    })  
+
+
     
 
 });
@@ -184,7 +208,7 @@ app.get('/integrate',function(req,res){
             json: {
                 "script_tag": {
                   "event":"onload",
-                  "src":"https://1c8bfc9c.ngrok.io/vat-updated.js"
+                  "src":"https://42f9ddc6.ngrok.io/vat-updated.js"
                 }
               },
             headers: {
