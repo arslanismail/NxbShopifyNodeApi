@@ -20,6 +20,7 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+app.use('/webhooks', bodyParser.raw({ type: 'application/json' }))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -30,6 +31,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // This function initializes the Shopify OAuth Process
 // The template in views/embedded_app_redirect.ejs is rendered 
+
+app.get('/render',function(req,res){
+
+    console.log('rendering');
+});
+app.post('/webhooks/orders/create', async (req, res) => {
+    console.log('🎉 We got an order!',res);
+    res.sendStatus(200)
+    // // we'll compare the hmac to our own hash
+    const hmac = req.get('X-Shopify-Hmac-Sha256')
+  
+    // create a hash using the body and our key
+    // const hash = crypto
+    //   .createHmac('sha256','46d14f99bb8d72dcaddb9ee8c5d25dc591c4a65574d0d3c36f9f17a412aac6e6')
+    //   .update(req.body, 'utf8', 'hex')
+    //   .digest('base64')
+  
+    // // Compare our hash to Shopify's hash
+    // if (hash === hmac) {
+    //   // It's a match! All good
+    //   console.log('Phew, it came from Shopifify!')
+    //   res.sendStatus(200)
+    // } else {
+    //   // No match! This request didn't originate from Shopify
+    //   console.log('Danger! Not from Shopify!')
+    //   res.sendStatus(403)
+    // }
+  });
+
 app.get('/shopify_auth', function(req, res) {
     if (req.query.shop) {
         req.session.shop = req.query.shop;
@@ -208,7 +238,7 @@ app.get('/integrate',function(req,res){
             json: {
                 "script_tag": {
                   "event":"onload",
-                  "src":"https://42f9ddc6.ngrok.io/vat-updated.js"
+                  "src":"https://f0afe9ce.ngrok.io/vat-updated.js"
                 }
               },
             headers: {
@@ -243,7 +273,6 @@ function verifyRequest(req, res, next) {
     } else {
         return res.json(400);
     }
-
 }
 
 // catch 404 and forward to error handler
